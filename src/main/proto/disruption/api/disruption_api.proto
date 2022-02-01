@@ -21,6 +21,8 @@ service DisruptionService {
 
   rpc flightUpdates(FlightUpdatesRequest) returns (Disruptions) {}
 
+  rpc GetAll(google.protobuf.Empty) returns (Disruptions) {}
+
 }
 
 message Disruption {

@@ -41,5 +41,11 @@ class Disruption(context: ValueEntityContext) extends AbstractDisruption {
       flight = d.flight
     )
 
+  override def flightUpdates(currentState: DisruptionState, flightUpdatesRequest: api.FlightUpdatesRequest): ValueEntity.Effect[api.Disruptions] =
+    effects.error("The command handler for `flightUpdates` is not implemented, yet")
+
+  override def getAll(currentState: DisruptionState, empty: Empty): ValueEntity.Effect[api.Disruptions] =
+    effects.error("The command handler for `GetAll` is not implemented, yet")
+
 }
 
