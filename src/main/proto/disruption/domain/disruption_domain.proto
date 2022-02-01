@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package disruption.domain;
+
+message DisruptionState {
+  string disruption_id = 1;
+  string event_type = 2;
+  string flight = 3;
+}
+
+
