@@ -1,0 +1,41 @@
+setup:
+```
+docker login
+sbt docker:publish -Ddocker.username=tammosminia
+akkasls service deploy asop tammosminia/asop:0.0.0-2-306f7c96-20220203-1436
+akkasls services expose asop --enable-cors
+```
+
+code wijziging deployen:
+```
+sbt docker:publish -Ddocker.username=tammosminia
+akkasls services deploy asop tammosminia/asop:0.0.0-2-306f7c96-20220203-1436
+#zou ook moeten werken met
+akkasls services redeploy asop
+```
+
+calls met grpcurl
+create:
+```
+grpcurl -d '{
+  "disruption_id": "1",
+  "event_type": "cancellation",
+  "flight": "KL1234"
+}' bitter-hill-9996.us-east1.akkaserverless.app:443 disruption.api.DisruptionService/Create
+```
+
+get
+```
+grpcurl -d '{
+  "disruption_id": "1"
+}' bitter-hill-9996.us-east1.akkaserverless.app:443 disruption.api.DisruptionService/GetDisruption
+```
+
+akka serverless dashboard: https://console.akkaserverless.lightbend.com/project/979ad508-cd2e-4b73-a9ca-dc533383a4b6/service/8a675b58-8825-4cb0-b7a3-42915d0a1a2e/overview
+
+
+lokaal draaien (lukt niet)
+```
+docker-compose up
+sbt run
+```
