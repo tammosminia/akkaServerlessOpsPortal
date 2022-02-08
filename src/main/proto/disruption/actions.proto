@@ -1,0 +1,33 @@
+syntax = "proto3";
+package disruption;
+
+import "akkaserverless/annotations.proto";
+import "disruption/api/disruption_api.proto";
+
+message Number {
+  int64 value = 1;
+}
+
+service Actions {
+  option (akkaserverless.codegen) = {
+    action: {}
+  };
+
+  rpc FlightUpdates(FlightUpdatesRequest) returns (Disruptions) {}
+}
+
+message FlightUpdatesRequest {
+  repeated Flight flights = 1;
+}
+
+message Flight {
+  string flight_key = 1;
+  bool is_cancelled = 2;
+  //  google.protobuf.Timestamp scheduled_departure = 3;
+  //  google.protobuf.Timestamp block_departure = 4;
+}
+
+message Disruptions {
+  repeated disruption.api.Disruption disruptions = 1;
+}
+
