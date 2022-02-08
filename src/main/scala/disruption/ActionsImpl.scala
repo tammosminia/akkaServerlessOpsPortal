@@ -3,6 +3,11 @@ package disruption
 import com.akkaserverless.scalasdk.SideEffect
 import com.akkaserverless.scalasdk.action.Action
 import com.akkaserverless.scalasdk.action.ActionCreationContext
+import com.google.protobuf.Empty
+import disruption.api.Disruption
+
+import java.util.UUID
+import scala.concurrent.Future
 
 // This class was initially generated based on the .proto definition by Akka Serverless tooling.
 //
@@ -11,12 +16,21 @@ import com.akkaserverless.scalasdk.action.ActionCreationContext
 
 /** An action. */
 class ActionsImpl(creationContext: ActionCreationContext) extends AbstractActionsAction {
+  /** Handler for "CreateNew". */
+  override def createNew(disruption: Disruption): Action.Effect[Disruption] = {
+    import scala.concurrent.ExecutionContext.Implicits.global
 
+    val id = UUID.randomUUID().toString
+    val created: Future[Disruption] = components.disruption.create(disruption.withDisruptionId(id)).execute()
+    val effect: Future[Action.Effect[Disruption]] = created.map(c => effects.reply(c))
+    effects.asyncEffect(effect)
+  }
+
+  /** Handler for "FlightUpdates". */
   override def flightUpdates(flightUpdatesRequest: FlightUpdatesRequest): Action.Effect[Disruptions] = {
     val ds = flightUpdatesRequest.flights.flatMap(flightToDisruption)
     val updates = ds.map { d =>
-      //SideEffect moet een DeferredCall zijn (een functie van een Service)
-      SideEffect(components.disruption.create(d))
+      SideEffect(components.actionsImpl.createNew(d))
     }
     val response = Disruptions(disruptions = ds)
     effects.reply(response).addSideEffects(updates)
@@ -29,6 +43,5 @@ class ActionsImpl(creationContext: ActionCreationContext) extends AbstractAction
       None
     }
   }
-
 }
 

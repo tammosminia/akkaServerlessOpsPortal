@@ -36,14 +36,14 @@ grpcurl -d '{
   "disruption_id": "1",
   "event_type": "cancellation",
   "flight": "KL1234"
-}' bitter-hill-9996.us-east1.akkaserverless.app:443 disruption.api.DisruptionService/Create
+}' wandering-lake-0497.us-east1.akkaserverless.app:443 disruption.api.DisruptionService/Create
 ```
 
 get disruption
 ```
 grpcurl -d '{
   "disruption_id": "1"
-}' bitter-hill-9996.us-east1.akkaserverless.app:443 disruption.api.DisruptionService/GetDisruption
+}' wandering-lake-0497.us-east1.akkaserverless.app:443 disruption.api.DisruptionService/GetDisruption
 ```
 
 flight updates
@@ -60,5 +60,12 @@ grpcurl -d '{
     }
   ]
 }' wandering-lake-0497.us-east1.akkaserverless.app:443 disruption.Actions/FlightUpdates
+```
+
+get all disruptions
+```
+grpcurl -d '{
+
+}' wandering-lake-0497.us-east1.akkaserverless.app:443 disruption.view.DisruptionView/GetAllDisruptions
 ```
 

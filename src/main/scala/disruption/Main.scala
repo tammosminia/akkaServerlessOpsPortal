@@ -2,6 +2,7 @@ package disruption
 
 import com.akkaserverless.scalasdk.AkkaServerless
 import disruption.domain.Disruption
+import disruption.view.DisruptionViewImpl
 import org.slf4j.LoggerFactory
 
 // This class was initially generated based on the .proto definition by Akka Serverless tooling.
@@ -20,7 +21,8 @@ object Main {
     // `AkkaServerless()` instance.
     AkkaServerlessFactory.withComponents(
       new Disruption(_),
-      new ActionsImpl(_))
+      new ActionsImpl(_),
+      new DisruptionViewImpl(_))
   }
 
   def main(args: Array[String]): Unit = {
