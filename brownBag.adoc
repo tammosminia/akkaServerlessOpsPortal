@@ -1,28 +1,26 @@
 = Akka Serverless
 
-== Wat is `Akka serverless` wel en niet
+== agenda
+- Intro
+- Wat is akka serverless?
+- Algemene uitleg
+- Demo
+- Voor wie is het?
 
-niet:
+== Wat is Akka serverless (niet)
 een actorSystem in de cloud
 actoren
 
-wel: (https://developer.lightbend.com/docs/akka-serverless/index.html)
+== wel
+https://developer.lightbend.com/docs/akka-serverless/index.html
 Database-less
 API-first
 Serverless
 
-ook:
+== eigenschappen
 ondersteuning voor Scala, Java, Python, JS
 opiniated - schrijft bepaalde dingen voor. Als die niet bevallen, kan je beter iets anders gebruiken
 Akka Serverless supports Value Entity, Event Sourced Entity, and Replicated Entity state models
-
-
-== demo, code bekijken
-
-
-
-== voor wie is dit?
-
 
 == documentatie
 https://developer.lightbend.com/docs/akka-serverless/
@@ -30,4 +28,18 @@ erg weinig
 Is al achterhaald. Een groot deel van de commandos uit de tutorial kloppen niet meer omdat ze zijn veranderd.
 niks te vinden op het internet, want niemand gebruikt het
 
+== demo, code bekijken
 
+
+== 4GL?
+Lijkt op Delphi, Oracle SB, squeak, ...
+Tekenen in plaats van programmeren.
+
+Makkelijke dingen zijn makkelijker.
+Moeilijke dingen zijn moeilijker.
+
+Voor wie is dit?
+
+
+== Akka platform
+https://www.lightbend.com/akka-platform

@@ -1,3 +1,5 @@
+akka serverless dashboard: https://console.akkaserverless.lightbend.com/project/979ad508-cd2e-4b73-a9ca-dc533383a4b6/service/8a675b58-8825-4cb0-b7a3-42915d0a1a2e/overview
+
 setup:
 ```
 docker login
@@ -14,8 +16,21 @@ akkasls services deploy asop tammosminia/asop:0.0.0-2-306f7c96-20220203-1436
 akkasls services redeploy asop
 ```
 
-calls met grpcurl
-create:
+routes
+```
+akkasls service unexpose asop bitter-hill-9996.us-east1.akkaserverless.app
+akkasls services expose asop --enable-cors
+```
+
+lokaal draaien (lukt niet)
+```
+docker-compose up
+sbt run
+```
+
+= calls met grpcurl
+
+create disruption
 ```
 grpcurl -d '{
   "disruption_id": "1",
@@ -24,18 +39,26 @@ grpcurl -d '{
 }' bitter-hill-9996.us-east1.akkaserverless.app:443 disruption.api.DisruptionService/Create
 ```
 
-get
+get disruption
 ```
 grpcurl -d '{
   "disruption_id": "1"
 }' bitter-hill-9996.us-east1.akkaserverless.app:443 disruption.api.DisruptionService/GetDisruption
 ```
 
-akka serverless dashboard: https://console.akkaserverless.lightbend.com/project/979ad508-cd2e-4b73-a9ca-dc533383a4b6/service/8a675b58-8825-4cb0-b7a3-42915d0a1a2e/overview
-
-
-lokaal draaien (lukt niet)
+flight updates
 ```
-docker-compose up
-sbt run
+grpcurl -d '{
+  "flights": [
+    {
+      "flight_key": "kl1",
+      "is_cancelled": false
+    },
+    {
+      "flight_key": "kl2",
+      "is_cancelled": true
+    }
+  ]
+}' wandering-lake-0497.us-east1.akkaserverless.app:443 disruption.Actions/FlightUpdates
 ```
+
