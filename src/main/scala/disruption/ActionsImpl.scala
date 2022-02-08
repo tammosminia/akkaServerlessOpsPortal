@@ -8,6 +8,7 @@ import disruption.api.Disruption
 
 import java.util.UUID
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 // This class was initially generated based on the .proto definition by Akka Serverless tooling.
 //
@@ -18,8 +19,6 @@ import scala.concurrent.Future
 class ActionsImpl(creationContext: ActionCreationContext) extends AbstractActionsAction {
   /** Handler for "CreateNew". */
   override def createNew(disruption: Disruption): Action.Effect[Disruption] = {
-    import scala.concurrent.ExecutionContext.Implicits.global
-
     val id = UUID.randomUUID().toString
     val created: Future[Disruption] = components.disruption.create(disruption.withDisruptionId(id)).execute()
     val effect: Future[Action.Effect[Disruption]] = created.map(c => effects.reply(c))
@@ -29,11 +28,13 @@ class ActionsImpl(creationContext: ActionCreationContext) extends AbstractAction
   /** Handler for "FlightUpdates". */
   override def flightUpdates(flightUpdatesRequest: FlightUpdatesRequest): Action.Effect[Disruptions] = {
     val ds = flightUpdatesRequest.flights.flatMap(flightToDisruption)
+    val response = Disruptions(disruptions = ds)
     val updates = ds.map { d =>
       SideEffect(components.actionsImpl.createNew(d))
     }
-    val response = Disruptions(disruptions = ds)
-    effects.reply(response).addSideEffects(updates)
+    effects
+      .reply(response)
+      .addSideEffects(updates)
   }
 
   private def flightToDisruption(f: Flight): Option[api.Disruption] = {

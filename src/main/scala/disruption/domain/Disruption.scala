@@ -14,8 +14,9 @@ class Disruption(context: ValueEntityContext) extends AbstractDisruption {
   override def emptyState: DisruptionState = new DisruptionState()
 
   override def create(currentState: DisruptionState, disruption: api.Disruption): ValueEntity.Effect[api.Disruption] = {
-    val state = convertToDomain(disruption)
-    effects.updateState(state).thenReply(disruption)
+    effects
+      .updateState(convertToDomain(disruption))
+      .thenReply(disruption)
   }
 
   def convertToDomain(d: api.Disruption): DisruptionState =
